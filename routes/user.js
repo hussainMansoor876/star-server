@@ -19,6 +19,10 @@ router.post('/signup', (req, res) => {
     console.log('req', req.body)
 })
 
+router.post('/login', (req, res) => {
+    console.log('req', req.body)
+})
+
 router.get('/getAll', (req, res) => {
     Users.find({})
         .then((response) => {
