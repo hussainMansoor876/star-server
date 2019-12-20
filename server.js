@@ -3,19 +3,25 @@ const app = express();
 
 const mongoose = require('./config/db')
 
-var db = mongoose.connection;
-db.on('error',console.error.bind(console,'connection error:'));
-db.once('open', function() {
-    console.log('DB chal gya')
-  });
+const PORT = process.env.PORT || 5001
 
-app.listen(5000,()=>{
-    console.log('Server Chal Gya...!')
+var db = mongoose.connection;
+db.on('error', console.error.bind(console, 'connection error:'));
+db.once('open', function () {
+  console.log('DB chal gya')
+});
+
+app.listen(PORT, () => {
+  console.log('Server Chal Gya...!', PORT)
 })
 
 app.use(express.json());
 
-app.use('/',require('./routes/index'))
+// app.use('/', (req, res) => {
+//   return res.send({ message: "Working" })
+// })
+
+app.use('/', require('./routes/index'))
 
 // app.get('/user',(request,response) =>{
 //     console.log(request.query)
