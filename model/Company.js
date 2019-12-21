@@ -30,7 +30,9 @@ const companySchema = new mongoose.Schema({
         type: String,
         required: true,
     },
-    
+    averageRating: {
+        type: Number
+    }
 })
 
 const Users = mongoose.model('company',companySchema)
