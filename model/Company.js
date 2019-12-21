@@ -27,8 +27,10 @@ const companySchema = new mongoose.Schema({
         required: true
     },
     address: {
-        
-    }
+        type: String,
+        required: true,
+    },
+    
 })
 
 const Users = mongoose.model('company',companySchema)
