@@ -1,4 +1,5 @@
 const express = require('express');
+var cors = require('cors')
 const app = express();
 
 const mongoose = require('./config/db')
@@ -11,6 +12,7 @@ db.once('open', function () {
   console.log('DB chal gya')
 });
 
+
 app.listen(PORT, () => {
   console.log('Server Chal Gya...!', PORT)
 })
@@ -18,9 +20,10 @@ app.listen(PORT, () => {
 app.use(express.json());
 
 // app.use('/', (req, res) => {
-//   return res.send({ message: "Working" })
-// })
-
+  //   return res.send({ message: "Working" })
+  // })
+  
+app.use(cors())
 app.use('/', require('./routes/index'))
 
 // app.get('/user',(request,response) =>{

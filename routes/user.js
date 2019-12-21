@@ -15,7 +15,6 @@ router.get('/get/:id', (req, res) => {
 
 router.post('/signup', (req, res) => {
     const { body } = req
-    console.log('body', body)
     bcrypt.hash(body.password, saltRounds)
         .then((hashPassword) => {
             console.log('hash', hashPassword)
@@ -34,12 +33,29 @@ router.post('/signup', (req, res) => {
         })
 })
 
-router.post('/signup', (req, res) => {
-    console.log('req', req.body)
-})
-
 router.post('/login', (req, res) => {
-    console.log('req', req.body)
+    const { body } = req
+    Users.findOne({ email: body.email })
+        .then((response) => {
+            bcrypt.compare(body.password, response.password)
+                .then((result) => {
+                    if (result) {
+                        var data = {
+                            email: response.email,
+                            _id: response._id,
+                            name: response.name
+                        }
+                        return res.send({ data, bool: true })
+                    }
+                    else {
+                        return res.send({ bool: false, message: 'Incorrect Email or password' })
+                    }
+                })
+        })
+        .catch((error) => {
+            return res.send({ bool: false, message: error.message })
+        })
+
 })
 
 router.get('/getAll', (req, res) => {
