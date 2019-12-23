@@ -11,12 +11,12 @@ const companySchema = new mongoose.Schema({
         required: true,
     },
     url: {
-        type: Object,
+        type: String,
         required: true,
         unique: true
     },
     profilePic: {
-        type: String,
+        type: Object,
         required: true
     },
     description: {
