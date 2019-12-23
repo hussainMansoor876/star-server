@@ -1,6 +1,8 @@
 const express = require('express');
 const router = express.Router();
 const bcrypt = require('bcrypt');
+var multer = require('multer')
+const upload = multer();
 const saltRounds = 10;
 var cloudinary = require('cloudinary').v2
 const Users = require('../model/Users')
@@ -68,7 +70,7 @@ router.post('/login', (req, res) => {
 
 router.post('/createCompany', (req, res) => {
     const { body } = req
-    console.log(body)
+    console.log(req.files)
     res.send({ a: true })
     // const user = new Users(body)
 })

@@ -1,5 +1,6 @@
 const express = require('express');
 var cors = require('cors')
+var fileUpload = require('express-fileupload')
 const app = express();
 
 const mongoose = require('./config/db')
@@ -20,10 +21,11 @@ app.listen(PORT, () => {
 app.use(express.json());
 
 // app.use('/', (req, res) => {
-  //   return res.send({ message: "Working" })
-  // })
-  
+//   return res.send({ message: "Working" })
+// })
+
 app.use(cors())
+app.use(fileUpload());
 app.use('/', require('./routes/index'))
 
 // app.get('/user',(request,response) =>{
@@ -33,5 +35,6 @@ app.use('/', require('./routes/index'))
 
 // app.post('/get',(request,response) =>{
 //     console.log('Yeh User Hai')
+//     console.log(request.files)
 //     response.send({name: 'Mansoor',email:'hussain@gmail.com'})
 // })
