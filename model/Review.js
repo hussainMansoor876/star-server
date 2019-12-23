@@ -10,19 +10,15 @@ const reviewSchema = new mongoose.Schema({
     },
     applicationStars: {
         type: Number,
-        required: true
     },
     featuresStars: {
         type: Number,
-        required: true
     },
     clarityStars: {
         type: Number,
-        required: true
     },
     privacyStars: {
         type: Number,
-        required: true
     },
     useStars: {
         type: Number,
@@ -34,7 +30,6 @@ const reviewSchema = new mongoose.Schema({
     },
     benefit: {
         type: Number,
-        required: tru
     }
 })
 
