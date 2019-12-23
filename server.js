@@ -25,7 +25,9 @@ app.use(express.json());
 // })
 
 app.use(cors())
-app.use(fileUpload());
+app.use(fileUpload({
+  useTempFiles: true,
+}));
 app.use('/', require('./routes/index'))
 
 // app.get('/user',(request,response) =>{

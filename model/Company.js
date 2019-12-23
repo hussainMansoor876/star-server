@@ -11,7 +11,7 @@ const companySchema = new mongoose.Schema({
         required: true,
     },
     url: {
-        type: String,
+        type: Object,
         required: true,
         unique: true
     },

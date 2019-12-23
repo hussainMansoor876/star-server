@@ -72,6 +72,9 @@ router.post('/createCompany', (req, res) => {
     const { body } = req
     console.log(req.files)
     console.log(body)
+    cloudinary.uploader.upload(req.files.photo.tempFilePath, (err, result) => {
+        console.log('upload', result)
+    })
     res.send({ a: true })
     // const user = new Users(body)
 })
