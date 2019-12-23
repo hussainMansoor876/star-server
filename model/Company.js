@@ -36,6 +36,14 @@ const companySchema = new mongoose.Schema({
     },
     averageRating: {
         type: Number
+    },
+    reviews: {
+
+    },
+    slug: {
+        type: String,
+        required: true,
+        unique: true,
     }
 })
 
