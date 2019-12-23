@@ -10,6 +10,10 @@ const companySchema = new mongoose.Schema({
         required: true,
         unique: true
     },
+    profilePic: {
+        type: String,
+        required: true
+    },
     description: {
         type: String,
         required: true
@@ -35,6 +39,6 @@ const companySchema = new mongoose.Schema({
     }
 })
 
-const Users = mongoose.model('company',companySchema)
+const Users = mongoose.model('company', companySchema)
 
 module.exports = Users;

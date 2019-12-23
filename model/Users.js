@@ -17,6 +17,13 @@ const userSchema = new mongoose.Schema({
     age: {
         type: Number,
         required: true
+    },
+    buyPlan: {
+        type: Boolean,
+        default: false
+    },
+    plan: {
+        type: String,
     }
 })
 

@@ -2,7 +2,14 @@ const express = require('express');
 const router = express.Router();
 const bcrypt = require('bcrypt');
 const saltRounds = 10;
+var cloudinary = require('cloudinary').v2
 const Users = require('../model/Users')
+
+cloudinary.config({
+    cloud_name: 'dl39em2mk',
+    api_key: '985614729712982',
+    api_secret: '9dHefP6ub1zvmrlpl4mIU-hthG0'
+});
 
 router.get('/get/:id', (req, res) => {
     console.log('Get', req.params.id)
@@ -56,6 +63,14 @@ router.post('/login', (req, res) => {
             return res.send({ bool: false, message: error.message })
         })
 
+})
+
+
+router.post('/createCompany', (req, res) => {
+    const { body } = req
+    console.log(body)
+    res.send({ a: true })
+    // const user = new Users(body)
 })
 
 router.get('/getAll', (req, res) => {
