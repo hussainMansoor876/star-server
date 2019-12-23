@@ -71,6 +71,7 @@ router.post('/login', (req, res) => {
 router.post('/createCompany', (req, res) => {
     const { body } = req
     console.log(req.files)
+    console.log(body)
     res.send({ a: true })
     // const user = new Users(body)
 })
