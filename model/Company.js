@@ -40,7 +40,7 @@ const companySchema = new mongoose.Schema({
         required: true,
     },
     averageRating: {
-        type: Number
+        type: Float32Array
     },
     reviews: {
         type: Schema.Types.ObjectId,

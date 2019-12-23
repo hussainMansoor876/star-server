@@ -6,7 +6,35 @@ const reviewSchema = new mongoose.Schema({
         required: true
     },
     feedback: {
-        
+        type: String
+    },
+    applicationStars: {
+        type: Number,
+        required: true
+    },
+    featuresStars: {
+        type: Number,
+        required: true
+    },
+    clarityStars: {
+        type: Number,
+        required: true
+    },
+    privacyStars: {
+        type: Number,
+        required: true
+    },
+    useStars: {
+        type: Number,
+        required: true
+    },
+    customerService: {
+        type: Number,
+        required: true
+    },
+    benefit: {
+        type: Number,
+        required: tru
     }
 })
 

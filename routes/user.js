@@ -73,19 +73,16 @@ router.post('/createCompany', (req, res) => {
     console.log(req.files)
     console.log(body)
     cloudinary.uploader.upload(req.files.photo.tempFilePath, (err, result) => {
+        if (err) {
+            return res.send({ bool: false, })
+        }
         console.log('upload', result)
     })
     res.send({ a: true })
     // const user = new Users(body)
 })
 
-router.get('/getAll', (req, res) => {
-    Users.find({})
-        .then((response) => {
-            return res.send(response)
-        })
-        .catch(e => console.log(e))
-})
+
 
 router.delete('/del', (req, res) => {
     const { body } = req;
@@ -109,14 +106,6 @@ router.put('/put', (req, res) => {
             res.send({ message: 'User Update Successfully', response })
         })
         .catch(e => res.send({ message: e.message }))
-})
-
-
-router.get('/find/:id', (req, res) => {
-    Users.findById(req.param.id)
-        .then((response) => {
-            return res.send(response)
-        })
 })
 
 router.post('/post', (request, response) => {
