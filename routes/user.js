@@ -99,21 +99,17 @@ router.post('/createCompany', (req, res) => {
 router.post('/review', (req, res) => {
     const { body } = req
     // console.log('body', body)
-    // const review = new Review(body)
+    const review = new Review(body)
 
-    Company.findById({ _id: body.companyId })
-        .then((result) => {
-            console.log('res', result.averageRating)
+    review.save()
+    Company.findByIdAndUpdate({ _id: body.companyId }, { $push: { reviews: review } })
+        .then((response) => {
+            console.log('res', response)
+            return res.send({ bool: true, message: 'Succesfully Added Review' })
         })
-    return res.send({ bool: true, message: 'Succesfully Added Review' })
-
-    // review.save()
-    //     .then(() => {
-    //         return res.send({ bool: true, message: 'Succesfully Added Review' })
-    //     })
-    //     .catch((e) => {
-    //         return res.send({ bool: false, message: e.message })
-    //     })
+        .catch((e) => {
+            return res.send({ bool: false, message: e.message })
+        })
 })
 
 

@@ -1,4 +1,5 @@
 const mongoose = require('mongoose');
+var Float = require('mongoose-float').loadType(mongoose, 1);
 const Schema = mongoose.Schema
 
 const SchemaTypes = mongoose.Schema.Types
@@ -43,7 +44,7 @@ const companySchema = new mongoose.Schema({
         required: true,
     },
     averageRating: {
-        type: SchemaTypes.Decimal128
+        type: Float
     },
     reviews: {
         type: Schema.Types.ObjectId,
