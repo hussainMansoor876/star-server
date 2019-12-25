@@ -1,8 +1,26 @@
 const mongoose = require('mongoose');
 
+const SchemaTypes = mongoose.Schema.Types
+
 const reviewSchema = new mongoose.Schema({
     stars: {
         type: Number,
+        required: true
+    },
+    companyName: {
+        type: String,
+        required: true
+    },
+    companyId: {
+        type: String,
+        required: true
+    },
+    ownerId: {
+        type: String,
+        required: true
+    },
+    reveiwerId: {
+        type: String,
         required: true
     },
     feedback: {

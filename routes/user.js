@@ -95,6 +95,11 @@ router.post('/createCompany', (req, res) => {
 })
 
 
+router.post('/review', (req, res) => {
+    const { body } = req
+    console.log(body)
+})
+
 
 router.delete('/del', (req, res) => {
     const { body } = req;
