@@ -6,6 +6,7 @@ const saltRounds = 10;
 var cloudinary = require('cloudinary').v2
 const Users = require('../model/Users')
 const Company = require('../model/Company')
+const Review = require('../model/Review')
 
 cloudinary.config({
     cloud_name: 'dl39em2mk',
@@ -97,7 +98,22 @@ router.post('/createCompany', (req, res) => {
 
 router.post('/review', (req, res) => {
     const { body } = req
-    console.log(body)
+    // console.log('body', body)
+    // const review = new Review(body)
+
+    Company.findById({ _id: body.companyId })
+        .then((result) => {
+            console.log('res', result.averageRating)
+        })
+    return res.send({ bool: true, message: 'Succesfully Added Review' })
+
+    // review.save()
+    //     .then(() => {
+    //         return res.send({ bool: true, message: 'Succesfully Added Review' })
+    //     })
+    //     .catch((e) => {
+    //         return res.send({ bool: false, message: e.message })
+    //     })
 })
 
 

@@ -60,6 +60,6 @@ const companySchema = new mongoose.Schema({
     }
 })
 
-const Users = mongoose.model('company', companySchema)
+const Company = mongoose.model('company', companySchema)
 
-module.exports = Users;
+module.exports = Company;
