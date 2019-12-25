@@ -28,7 +28,7 @@ const companySchema = new mongoose.Schema({
         required: true
     },
     contactNo: {
-        type: Number,
+        type: String,
         required: true
     },
     contactEmail: {
@@ -47,6 +47,11 @@ const companySchema = new mongoose.Schema({
         ref: 'review'
     },
     slug: {
+        type: String,
+        required: true,
+        unique: true,
+    },
+    urlSlug: {
         type: String,
         required: true,
         unique: true,

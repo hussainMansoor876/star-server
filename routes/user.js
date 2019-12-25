@@ -1,8 +1,7 @@
 const express = require('express');
 const router = express.Router();
 const bcrypt = require('bcrypt');
-var multer = require('multer')
-const upload = multer();
+var slugify = require('slugify')
 const saltRounds = 10;
 var cloudinary = require('cloudinary').v2
 const Users = require('../model/Users')
@@ -71,13 +70,20 @@ router.post('/login', (req, res) => {
 router.post('/createCompany', (req, res) => {
     const { body } = req
     console.log(req.files)
+    body.averageRating = JSON.parse(body.averageRating)
+    body.slug = slugify(body.title, {
+        replacement: '-',
+        remove: null,
+        lower: true,
+      })
+    body.slug = `${body.ownerId}/${body.slug}`
     console.log(body)
-    cloudinary.uploader.upload(req.files.photo.tempFilePath, (err, result) => {
-        if (err) {
-            return res.send({ bool: false, })
-        }
-        console.log('upload', result)
-    })
+    // cloudinary.uploader.upload(req.files.photo.tempFilePath, (err, result) => {
+    //     if (err) {
+    //         return res.send({ bool: false, })
+    //     }
+    //     console.log('upload', result)
+    // })
     res.send({ a: true })
     // const user = new Users(body)
 })
