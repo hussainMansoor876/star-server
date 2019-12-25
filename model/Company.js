@@ -1,6 +1,8 @@
 const mongoose = require('mongoose');
 const Schema = mongoose.Schema
 
+const SchemaTypes = mongoose.Schema.Types
+
 const companySchema = new mongoose.Schema({
     name: {
         type: String,
@@ -9,6 +11,7 @@ const companySchema = new mongoose.Schema({
     ownerId: {
         type: String,
         required: true,
+        unique: true
     },
     url: {
         type: String,
@@ -40,7 +43,7 @@ const companySchema = new mongoose.Schema({
         required: true,
     },
     averageRating: {
-        type: Float32Array
+        type: SchemaTypes.Decimal128
     },
     reviews: {
         type: Schema.Types.ObjectId,
@@ -49,7 +52,6 @@ const companySchema = new mongoose.Schema({
     slug: {
         type: String,
         required: true,
-        unique: true,
     },
     slugUrl: {
         type: String,

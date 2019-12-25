@@ -5,6 +5,7 @@ var slugify = require('slugify')
 const saltRounds = 10;
 var cloudinary = require('cloudinary').v2
 const Users = require('../model/Users')
+const Company = require('../model/Company')
 
 cloudinary.config({
     cloud_name: 'dl39em2mk',
@@ -68,7 +69,7 @@ router.post('/login', (req, res) => {
 
 
 router.post('/createCompany', (req, res) => {
-    const { body } = req
+    const { body, files } = req
     console.log(req.files)
     body.averageRating = JSON.parse(body.averageRating)
     body.slug = slugify(body.title, {
@@ -77,18 +78,19 @@ router.post('/createCompany', (req, res) => {
         lower: true,
     })
     body.slugUrl = `${body.ownerId}/${body.slug}`
-    cloudinary.uploader.upload(req.files.photo.tempFilePath, (err, result) => {
+    console.log(body)
+    cloudinary.uploader.upload(files.profilePic.tempFilePath, (err, result) => {
         if (err) {
             return res.send({ bool: false, })
         }
-        console.log('upload', result)
         body.profilePic = result
 
-        const user = new Users(body);
+        console.log(result)
+        const company = new Company(body);
 
-        user.save()
-            .then((res) => response.send({ bool: true, message: 'Company Created Successfully' }))
-            .catch(e => res.send({ bool: false, message: error.message }))
+        company.save()
+            .then(() => res.send({ bool: true, message: 'Company Created Successfully' }))
+            .catch(e => res.send({ bool: false, message: e.message }))
     })
 })
 
