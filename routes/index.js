@@ -2,6 +2,7 @@ const express = require('express');
 const router = express.Router();
 
 router.use('/user', require('./user'))
+router.use('/get', require('./get'))
 
 router.get('/check', (req, res) => {
     return res.send({ message: "BackEnd is working" })
