@@ -6,10 +6,28 @@ const Review = require('../model/Review')
 
 router.get('/:id/', (req, res) => {
     const { params } = req
-    console.log(params)
-    Company.findOne({ ownerId: params.id })
+    Users.findById({ _id: params.id })
         .then((response) => {
-            return res.send(response)
+            return res.send({ data: response, bool: true })
+        })
+        .catch(e => console.log(e))
+})
+
+router.get('/all-company', (req, res) => {
+    Company.find({})
+        .then((response) => {
+            return res.send({ data: response, bool: true })
+        })
+        .catch((e) => {
+            return res.send({ bool: false, message: e.message })
+        })
+})
+
+router.get('/:id/:slug', (req, res) => {
+    const { params } = req
+    Company.findOne({ ownerId: params.id, slug: params.slug })
+        .then((response) => {
+            return res.send({ data: response, bool: true })
         })
         .catch(e => console.log(e))
 })
