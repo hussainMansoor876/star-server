@@ -75,17 +75,21 @@ router.post('/createCompany', (req, res) => {
         replacement: '-',
         remove: null,
         lower: true,
-      })
-    body.slug = `${body.ownerId}/${body.slug}`
-    console.log(body)
-    // cloudinary.uploader.upload(req.files.photo.tempFilePath, (err, result) => {
-    //     if (err) {
-    //         return res.send({ bool: false, })
-    //     }
-    //     console.log('upload', result)
-    // })
-    res.send({ a: true })
-    // const user = new Users(body)
+    })
+    body.slugUrl = `${body.ownerId}/${body.slug}`
+    cloudinary.uploader.upload(req.files.photo.tempFilePath, (err, result) => {
+        if (err) {
+            return res.send({ bool: false, })
+        }
+        console.log('upload', result)
+        body.profilePic = result
+
+        const user = new Users(body);
+
+        user.save()
+            .then((res) => response.send({ bool: true, message: 'Company Created Successfully' }))
+            .catch(e => res.send({ bool: false, message: error.message }))
+    })
 })
 
 

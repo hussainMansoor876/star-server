@@ -51,7 +51,7 @@ const companySchema = new mongoose.Schema({
         required: true,
         unique: true,
     },
-    urlSlug: {
+    slugUrl: {
         type: String,
         required: true,
         unique: true,
