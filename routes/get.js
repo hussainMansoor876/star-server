@@ -7,10 +7,10 @@ const Review = require('../model/Review')
 router.get('/all-company', (req, res) => {
     Company.find({})
         .then((response) => {
-            return res.send({ data: response, bool: true })
+            return res.send({ data: response, success: true })
         })
         .catch((e) => {
-            return res.send({ bool: false, message: e.message })
+            return res.send({ success: false, message: e.message })
         })
 })
 

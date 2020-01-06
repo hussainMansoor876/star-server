@@ -24,19 +24,25 @@ router.get('/get/:id', (req, res) => {
 })
 
 router.post('/signup', (req, res) => {
-    const { body } = req
+    const { body, files } = req
+    console.log(body)
+    console.log(files)
     bcrypt.hash(body.password, saltRounds)
         .then((hashPassword) => {
             console.log('hash', hashPassword)
-            const user = new Users({
-                name: body.name,
-                email: body.email,
-                age: body.age,
-                password: hashPassword
+            cloudinary.uploader.upload(files.upload.tempFilePath, (err, result) => {
+                if (err) {
+                    return res.send({ success: false, })
+                }
+
+                body.profilePic = result
+                body.password = hashPassword
+
+                const user = new Users(body)
+                user.save()
+                    .then(() => res.send({ message: 'Signup successfully!!!', success: true }))
+                    .catch(e => res.send(500, { message: e.message, success: false }))
             })
-            user.save()
-                .then(() => res.send({ message: 'User successfully Add' }))
-                .catch(e => res.send(500, { message: e.message }))
         })
         .catch((e) => {
             return res.send({ message: e.message })
@@ -55,15 +61,15 @@ router.post('/login', (req, res) => {
                             _id: response._id,
                             name: response.name
                         }
-                        return res.send({ data, bool: true })
+                        return res.send({ data, success: true })
                     }
                     else {
-                        return res.send({ bool: false, message: 'Incorrect Email or password' })
+                        return res.send({ success: false, message: 'Incorrect Email or password' })
                     }
                 })
         })
         .catch((error) => {
-            return res.send({ bool: false, message: error.message })
+            return res.send({ success: false, message: error.message })
         })
 
 })
@@ -82,7 +88,7 @@ router.post('/createCompany', (req, res) => {
     console.log(body)
     cloudinary.uploader.upload(files.profilePic.tempFilePath, (err, result) => {
         if (err) {
-            return res.send({ bool: false, })
+            return res.send({ success: false, })
         }
         body.profilePic = result
 
@@ -90,8 +96,8 @@ router.post('/createCompany', (req, res) => {
         const company = new Company(body);
 
         company.save()
-            .then(() => res.send({ bool: true, message: 'Company Created Successfully' }))
-            .catch(e => res.send({ bool: false, message: e.message }))
+            .then(() => res.send({ success: true, message: 'Company Created Successfully' }))
+            .catch(e => res.send({ success: false, message: e.message }))
     })
 })
 
@@ -105,10 +111,10 @@ router.post('/review', (req, res) => {
     Company.findByIdAndUpdate({ _id: body.companyId }, { $push: { reviews: review } })
         .then((response) => {
             console.log('res', response)
-            return res.send({ bool: true, message: 'Succesfully Added Review' })
+            return res.send({ success: true, message: 'Succesfully Added Review' })
         })
         .catch((e) => {
-            return res.send({ bool: false, message: e.message })
+            return res.send({ success: false, message: e.message })
         })
 })
 
