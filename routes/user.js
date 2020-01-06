@@ -27,32 +27,39 @@ router.post('/signup', (req, res) => {
     const { body, files } = req
     console.log(body)
     console.log(files)
-    bcrypt.hash(body.password, saltRounds)
-        .then((hashPassword) => {
-            console.log('hash', hashPassword)
-            cloudinary.uploader.upload(files.upload.tempFilePath, (err, result) => {
-                if (err) {
-                    return res.send({ success: false, })
-                }
 
-                body.profilePic = result
-                body.password = hashPassword
-                console.log(body)
+    Users.findOne({ email: body.email }, (err, response) => {
+        if (response) {
+            return res.send({ success: false, message: 'Email Already Exist!!!' })
+        }
 
-                const user = new Users({
-                    name: body.name,
-                    email: body.email,
-                    password: hashPassword,
-                    profilePic: pr,
+        bcrypt.hash(body.password, saltRounds)
+            .then((hashPassword) => {
+                console.log('hash', hashPassword)
+                cloudinary.uploader.upload(files.upload.tempFilePath, (err, result) => {
+                    if (err) {
+                        return res.send({ success: false, })
+                    }
+
+                    body.profilePic = result
+                    body.password = hashPassword
+                    console.log(body)
+
+                    const user = new Users({
+                        name: body.name,
+                        email: body.email,
+                        password: hashPassword,
+                        profilePic: result,
+                    })
+                    user.save()
+                        .then(() => res.send({ message: 'Signup successfully!!!', success: true }))
+                        .catch(e => res.send({ message: e.message, success: false }))
                 })
-                user.save()
-                    .then(() => res.send({ message: 'Signup successfully!!!', success: true }))
-                    .catch(e => res.send({ message: e.message, success: false }))
             })
-        })
-        .catch((e) => {
-            return res.send({ message: e.message, success: false })
-        })
+            .catch((e) => {
+                return res.send({ message: e.message, success: false })
+            })
+    })
 })
 
 router.post('/login', (req, res) => {
