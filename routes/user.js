@@ -37,15 +37,21 @@ router.post('/signup', (req, res) => {
 
                 body.profilePic = result
                 body.password = hashPassword
+                console.log(body)
 
-                const user = new Users(body)
+                const user = new Users({
+                    name: body.name,
+                    email: body.email,
+                    password: hashPassword,
+                    profilePic: pr,
+                })
                 user.save()
                     .then(() => res.send({ message: 'Signup successfully!!!', success: true }))
-                    .catch(e => res.send(500, { message: e.message, success: false }))
+                    .catch(e => res.send({ message: e.message, success: false }))
             })
         })
         .catch((e) => {
-            return res.send({ message: e.message })
+            return res.send({ message: e.message, success: false })
         })
 })
 
