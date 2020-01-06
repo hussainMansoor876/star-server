@@ -35,7 +35,6 @@ router.post('/signup', (req, res) => {
 
         bcrypt.hash(body.password, saltRounds)
             .then((hashPassword) => {
-                console.log('hash', hashPassword)
                 cloudinary.uploader.upload(files.upload.tempFilePath, (err, result) => {
                     if (err) {
                         return res.send({ success: false, })
@@ -51,8 +50,15 @@ router.post('/signup', (req, res) => {
                         password: hashPassword,
                         profilePic: result,
                     })
+
+                    const data = {
+                        name: body.name,
+                        email: body.email,
+                        profilePic: result,
+                        _id: user._id
+                    }
                     user.save()
-                        .then(() => res.send({ message: 'Signup successfully!!!', success: true }))
+                        .then(() => res.send({ message: 'Signup successfully!!!', success: true, user: data }))
                         .catch(e => res.send({ message: e.message, success: false }))
                 })
             })
