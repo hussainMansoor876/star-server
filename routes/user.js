@@ -80,7 +80,7 @@ router.post('/login', (req, res) => {
                             _id: response._id,
                             name: response.name
                         }
-                        return res.send({ data, success: true })
+                        return res.send({ user: data, success: true })
                     }
                     else {
                         return res.send({ success: false, message: 'Incorrect Email or password' })
