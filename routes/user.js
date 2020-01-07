@@ -75,12 +75,14 @@ router.post('/login', (req, res) => {
             bcrypt.compare(body.password, response.password)
                 .then((result) => {
                     if (result) {
-                        var data = {
+                        var user = {
+                            name: response.name,
                             email: response.email,
-                            _id: response._id,
-                            name: response.name
+                            profilePic: response.profilePic,
+                            buyPlan: response.buyPlan,
+                            plan: response.plan
                         }
-                        return res.send({ user: data, success: true })
+                        return res.send({ user: user, success: true })
                     }
                     else {
                         return res.send({ success: false, message: 'Incorrect Email or password' })
