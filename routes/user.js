@@ -40,7 +40,6 @@ router.post('/signup', (req, res) => {
 
                     body.profilePic = result
                     body.password = hashPassword
-                    console.log(body)
 
                     const user = new Users({
                         name: body.name,
