@@ -99,27 +99,28 @@ router.post('/login', (req, res) => {
 router.post('/createCompany', (req, res) => {
     const { body, files } = req
     console.log(req.files)
-    body.averageRating = JSON.parse(body.averageRating)
-    body.slug = slugify(body.title, {
-        replacement: '-',
-        remove: null,
-        lower: true,
-    })
-    body.slugUrl = `${body.ownerId}/${body.slug}`
-    console.log(body)
-    cloudinary.uploader.upload(files.profilePic.tempFilePath, (err, result) => {
-        if (err) {
-            return res.send({ success: false, })
-        }
-        body.profilePic = result
+    console.log(req.body.data)
+    // body.averageRating = JSON.parse(body.averageRating)
+    // body.slug = slugify(body.title, {
+    //     replacement: '-',
+    //     remove: null,
+    //     lower: true,
+    // })
+    // body.slugUrl = `${body.ownerId}/${body.slug}`
+    // console.log(body)
+    // cloudinary.uploader.upload(files.profilePic.tempFilePath, (err, result) => {
+    //     if (err) {
+    //         return res.send({ success: false, })
+    //     }
+    //     body.profilePic = result
 
-        console.log(result)
-        const company = new Company(body);
+    //     console.log(result)
+    //     const company = new Company(body);
 
-        company.save()
-            .then(() => res.send({ success: true, message: 'Company Created Successfully' }))
-            .catch(e => res.send({ success: false, message: e.message }))
-    })
+    //     company.save()
+    //         .then(() => res.send({ success: true, message: 'Company Created Successfully' }))
+    //         .catch(e => res.send({ success: false, message: e.message }))
+    // })
 })
 
 
