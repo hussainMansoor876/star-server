@@ -80,6 +80,7 @@ router.post('/login', (req, res) => {
                             email: response.email,
                             profilePic: response.profilePic,
                             buyPlan: response.buyPlan,
+                            _id: response._id,
                             plan: response.plan
                         }
                         return res.send({ user: user, success: true })
@@ -98,29 +99,26 @@ router.post('/login', (req, res) => {
 
 router.post('/createCompany', (req, res) => {
     const { body, files } = req
-    console.log(req.files)
-    console.log(req.body.data)
     // body.averageRating = JSON.parse(body.averageRating)
-    // body.slug = slugify(body.title, {
-    //     replacement: '-',
-    //     remove: null,
-    //     lower: true,
-    // })
-    // body.slugUrl = `${body.ownerId}/${body.slug}`
-    // console.log(body)
-    // cloudinary.uploader.upload(files.profilePic.tempFilePath, (err, result) => {
-    //     if (err) {
-    //         return res.send({ success: false, })
-    //     }
-    //     body.profilePic = result
+    body.slug = slugify(body.name, {
+        replacement: '-',
+        remove: null,
+        lower: true,
+    })
+    body.slugUrl = `${body.ownerId}/${body.slug}`
+    cloudinary.uploader.upload(files.profilePic.tempFilePath, (err, result) => {
+        if (err) {
+            return res.send({ success: false, })
+        }
+        body.profilePic = result
+        console.log(body)
 
-    //     console.log(result)
-    //     const company = new Company(body);
+        const company = new Company(body);
 
-    //     company.save()
-    //         .then(() => res.send({ success: true, message: 'Company Created Successfully' }))
-    //         .catch(e => res.send({ success: false, message: e.message }))
-    // })
+        company.save()
+            .then(() => res.send({ success: true, message: 'Company Created Successfully' }))
+            .catch(e => res.send({ success: false, message: e.message }))
+    })
 })
 
 
