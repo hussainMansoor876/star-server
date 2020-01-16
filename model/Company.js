@@ -47,13 +47,6 @@ const companySchema = new mongoose.Schema({
         type: String,
         required: true,
     },
-    averageRating: {
-        type: Float
-    },
-    reviews: {
-        type: Schema.Types.ObjectId,
-        ref: 'review'
-    },
     slug: {
         type: String,
         required: true,
@@ -61,7 +54,14 @@ const companySchema = new mongoose.Schema({
     slugUrl: {
         type: String,
         required: true,
-        unique: true,
+    },
+    averageRating: {
+        type: String,
+        required: false
+    },
+    reviews: {
+        type: Schema.Types.ObjectId,
+        ref: 'review'
     }
 })
 

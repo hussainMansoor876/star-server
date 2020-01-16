@@ -99,13 +99,15 @@ router.post('/login', (req, res) => {
 
 router.post('/createCompany', (req, res) => {
     const { body, files } = req
+    const user = JSON.parse(body.user)
     // body.averageRating = JSON.parse(body.averageRating)
     body.slug = slugify(body.name, {
         replacement: '-',
         remove: null,
         lower: true,
     })
-    body.slugUrl = `${body.ownerId}/${body.slug}`
+    body.slugUrl = `${user._id}/${body.slug}`
+    body.ownerId = user._id
     cloudinary.uploader.upload(files.profilePic.tempFilePath, (err, result) => {
         if (err) {
             return res.send({ success: false, })
