@@ -25,8 +25,6 @@ router.get('/get/:id', (req, res) => {
 
 router.post('/signup', (req, res) => {
     const { body, files } = req
-    console.log(body)
-    console.log(files)
 
     Users.findOne({ email: body.email }, (err, response) => {
         if (response) {
@@ -100,7 +98,6 @@ router.post('/login', (req, res) => {
 router.post('/createCompany', (req, res) => {
     const { body, files } = req
     const user = JSON.parse(body.user)
-    // body.averageRating = JSON.parse(body.averageRating)
     body.slug = slugify(body.name, {
         replacement: '-',
         remove: null,
@@ -108,18 +105,24 @@ router.post('/createCompany', (req, res) => {
     })
     body.slugUrl = `${user._id}/${body.slug}`
     body.ownerId = user._id
-    cloudinary.uploader.upload(files.profilePic.tempFilePath, (err, result) => {
-        if (err) {
-            return res.send({ success: false, })
+
+    Company.findOne({ url: body.url }, (err, response) => {
+        if (response) {
+            return res.send({ success: false, message: 'Url Already Exist!!!' })
         }
-        body.profilePic = result
-        console.log(body)
 
-        const company = new Company(body);
+        cloudinary.uploader.upload(files.profilePic.tempFilePath, (err, result) => {
+            if (err) {
+                return res.send({ success: false, })
+            }
+            body.profilePic = result
 
-        company.save()
-            .then(() => res.send({ success: true, message: 'Company Created Successfully' }))
-            .catch(e => res.send({ success: false, message: e.message }))
+            const company = new Company(body);
+
+            company.save()
+                .then(() => res.send({ success: true, message: 'Company Created Successfully' }))
+                .catch(e => res.send({ success: false, message: e.message }))
+        })
     })
 })
 
