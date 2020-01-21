@@ -14,6 +14,17 @@ router.get('/all-company', (req, res) => {
         })
 })
 
+router.get('/approved-company', (req, res) => {
+    Company.find({ status: 'approved' })
+        .then((response) => {
+            return res.send({ data: response, success: true })
+        })
+        .catch((e) => {
+            return res.send({ success: false, message: e.message })
+        })
+})
+
+
 router.get('/peding-company', (req, res) => {
     Company.find({ status: 'pending' })
         .then((response) => {
