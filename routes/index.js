@@ -3,6 +3,7 @@ const router = express.Router();
 
 router.use('/user', require('./user'))
 router.use('/get', require('./get'))
+router.use('/post', require('./post'))
 router.use('/id', require('./id'))
 
 router.get('/check', (req, res) => {
