@@ -37,7 +37,7 @@ router.get('/peding-company', (req, res) => {
 
 
 router.get('/all-users', (req, res) => {
-    Users.find({})
+    Users.find({}, { password: 0 })
         .then((response) => {
             return res.send({ data: response, success: true })
         })
