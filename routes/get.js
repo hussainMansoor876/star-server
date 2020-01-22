@@ -35,4 +35,15 @@ router.get('/peding-company', (req, res) => {
         })
 })
 
+
+router.get('/all-users', (req, res) => {
+    Users.find({})
+        .then((response) => {
+            return res.send({ data: response, success: true })
+        })
+        .catch((e) => {
+            return res.send({ success: false, message: e.message })
+        })
+})
+
 module.exports = router
