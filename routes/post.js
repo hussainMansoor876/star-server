@@ -6,9 +6,10 @@ const Review = require('../model/Review')
 
 
 router.post('/approved', (req, res) => {
-    Company.findByIdAndUpdate(req.body.id, { status: 'approved' })
+    console.log(req.body.id)
+    Company.findByIdAndUpdate(req.body.id, { status: 'pending' })
         .then((response) => {
-            return res.send({ success: true })
+            return res.send({ success: false })
         })
         .catch((e) => {
             return res.send({ success: false, message: e.message })
