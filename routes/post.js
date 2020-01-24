@@ -15,4 +15,19 @@ router.post('/approved', (req, res) => {
         })
 })
 
+router.post('/search', (req, res) => {
+    const { searchType, searchInput } = req.body
+    if (searchType === 'company') {
+        console.log("Hello")
+        Company.find({ name: { $regex: 'hussain', '$options': 'i' } })
+            .then((response) => {
+                return res.send({ success: true, data: response })
+            })
+        // Company.aggregate([{ $match: { name: searchInput } }])
+        //     .then((response) => {
+        //         return res.send({ success: true, data: response })
+        //     })
+    }
+})
+
 module.exports = router
