@@ -24,7 +24,7 @@ router.post('/search', (req, res) => {
             })
     }
     else {
-        Users.find({ name: { $regex: 'hussain', '$options': 'i' } })
+        Users.find({ name: { $regex: 'hussain', '$options': 'i' } }, { password: 0 })
             .then((response) => {
                 return res.send({ success: true, data: response })
             })
