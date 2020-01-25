@@ -18,14 +18,12 @@ router.post('/approved', (req, res) => {
 router.post('/search', (req, res) => {
     const { searchType, searchInput } = req.body
     if (searchType === 'company') {
-        Company.find({ name: { $regex: searchInput, '$options': 'i' } })
-            .then((response) => {
-                return res.send({ success: true, data: response })
-            })
-        // Company.aggregate([{ $match: { name: searchInput } }])
-        //     .then((response) => {
-        //         return res.send({ success: true, data: response })
-        //     })
+        setTimeout(() => {
+            Company.find({ name: { $regex: searchInput, '$options': 'i' } })
+                .then((response) => {
+                    return res.send({ success: true, data: response })
+                })
+        }, 5000)
     }
     else {
         Users.find({ name: { $regex: 'hussain', '$options': 'i' } })
