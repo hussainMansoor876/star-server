@@ -18,7 +18,7 @@ router.post('/approved', (req, res) => {
 router.post('/search', (req, res) => {
     const { searchType, searchInput } = req.body
     if (searchType === 'company') {
-        Company.find({ name: { $regex: searchInput, '$options': 'i' } })
+        Company.find({ name: { $regex: searchInput, '$options': 'i' }, status: 'approved' })
             .then((response) => {
                 return res.send({ success: true, data: response })
             })
