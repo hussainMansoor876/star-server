@@ -46,7 +46,7 @@ router.post('/search-profile', (req, res) => {
 router.post('/search-company', (req, res) => {
     const { _id } = req.body
     console.log(_id)
-    Company.findById({ _id: _id, status: 'approved' })
+    Company.findOne({ _id: _id, status: 'approved' })
         .then((response) => {
             return res.send({ success: true, data: response })
         })
