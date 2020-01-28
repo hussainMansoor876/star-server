@@ -33,7 +33,6 @@ router.post('/search', (req, res) => {
 
 router.post('/search-profile', (req, res) => {
     const { _id } = req.body
-    console.log(_id)
     Users.findById({ _id: _id }, { password: 0 })
         .then((response) => {
             return res.send({ success: true, data: response })
