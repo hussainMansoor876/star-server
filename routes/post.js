@@ -36,9 +36,21 @@ router.post('/search-profile', (req, res) => {
     console.log(_id)
     Users.findById({ _id: _id }, { password: 0 })
         .then((response) => {
-                return res.send({ success: true, data: response })
+            return res.send({ success: true, data: response })
         })
-        .catch((e)=>{
+        .catch((e) => {
+            return res.send({ success: false, data: '' })
+        })
+})
+
+router.post('/search-company', (req, res) => {
+    const { _id } = req.body
+    console.log(_id)
+    Company.findOne({ _id: _id, status: 'approved' })
+        .then((response) => {
+            return res.send({ success: true, data: response })
+        })
+        .catch((e) => {
             return res.send({ success: false, data: '' })
         })
 })
