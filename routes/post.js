@@ -36,20 +36,11 @@ router.post('/search-profile', (req, res) => {
     console.log(_id)
     Users.findById({ _id: _id }, { password: 0 })
         .then((response) => {
-            return res.send({ success: true, data: response })
+                return res.send({ success: true, data: response })
         })
-    // if (searchType === 'company') {
-    //     Company.find({ name: { $regex: searchInput, '$options': 'i' }, status: 'approved' })
-    //         .then((response) => {
-    //             return res.send({ success: true, data: response })
-    //         })
-    // }
-    // else {
-    //     Users.find({ name: { $regex: 'hussain', '$options': 'i' } }, { password: 0 })
-    //         .then((response) => {
-    //             return res.send({ success: true, data: response })
-    //         })
-    // }
+        .catch((e)=>{
+            return res.send({ success: false, data: '' })
+        })
 })
 
 module.exports = router
