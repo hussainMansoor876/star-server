@@ -7,18 +7,37 @@ const Review = require('../model/Review')
 
 router.post('/user', (req, res) => {
     const { _id } = req.body
-    console.log(_id)
+
+    Users.findByIdAndDelete({ _id: _id })
+        .then((response) => {
+            if (response.buyPlan) {
+                Company.findByIdAndDelete({ _id: _id })
+                    .then(() => {
+                        return res.send({ success: true })
+                    })
+            }
+            return res.send({ success: true })
+        })
+        .catch((e) => {
+            return res.send({ success: false })
+        })
 })
 
 router.post('/company', (req, res) => {
     const { _id } = req.body
-    console.log(_id)
     Company.findByIdAndDelete({ _id: _id })
         .then((response) => {
-            console.log('res', response)
             Users.findOneAndUpdate({ _id: response.ownerId }, { buyPlan: false, plan: null, subDate: null })
+                .then(() => {
+                    return res.send({ success: true })
+                })
+                .catch((e) => {
+                    return res.send({ success: false })
+                })
         })
-    return res.send({ success: true })
+        .catch((e) => {
+            return res.send({ success: false })
+        })
 })
 
 module.exports = router
