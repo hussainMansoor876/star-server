@@ -13,6 +13,11 @@ router.post('/user', (req, res) => {
 router.post('/company', (req, res) => {
     const { _id } = req.body
     console.log(_id)
+    Company.findByIdAndDelete({ _id: _id })
+        .then((response) => {
+            console.log('res', response)
+            Users.findOneAndUpdate({ _id: response.ownerId }, { buyPlan: false, plan: null, subDate: null })
+        })
     return res.send({ success: true })
 })
 
