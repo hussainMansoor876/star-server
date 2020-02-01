@@ -53,4 +53,21 @@ router.post('/search-company', (req, res) => {
         })
 })
 
+
+router.post('/is-company', (req, res) => {
+    const { _id } = req.body
+    console.log('id', _id)
+    Company.findOne({ ownerId: _id, status: 'approved' })
+        .then((response) => {
+            if (response) {
+                return res.send({ success: true, data: response })
+            }
+            return res.send({ success: false })
+        })
+        .catch((e) => {
+            return res.send({ success: false })
+        })
+})
+
+
 module.exports = router
