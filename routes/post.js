@@ -1,5 +1,7 @@
 const express = require('express');
 const router = express.Router();
+const stripe = require("stripe")("sk_test_SsQNGbXg56J4jyyYbugKo3Qi00LWkKQQXE");
+const uuid = require("uuid/v4");
 const Users = require('../model/Users')
 const Company = require('../model/Company')
 const Review = require('../model/Review')
@@ -68,6 +70,44 @@ router.post('/is-company', (req, res) => {
             return res.send({ success: false })
         })
 })
+
+
+router.post("/checkout", async (req, res) => {  
+    let error;
+    let status;
+    try {
+      const { product, token } = req.body;
+  
+      const customer = await stripe.customers.create({
+        email: token.email,
+        source: token.id
+      });
+      const idempotencyKey = uuid();
+      const charge = await stripe.charges.create(
+        {
+          amount: product.amount,
+          currency: "usd",
+          customer: customer.id,
+          receipt_email: token.email,
+          description: `Purchased the ${product.name}`,
+        },
+        {
+            idempotencyKey
+        }
+      );
+      console.log("Charge:", { charge });
+      status = "success";
+    } catch (error) {
+      console.error("Error:", error);
+      status = "failure";
+    }
+    if(status == "success"){
+        console.log('status', cha)
+    }
+  
+    res.json({ error, status });
+  });
+  
 
 
 module.exports = router
