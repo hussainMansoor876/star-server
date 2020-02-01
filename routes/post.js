@@ -58,7 +58,6 @@ router.post('/search-company', (req, res) => {
 
 router.post('/is-company', (req, res) => {
     const { _id } = req.body
-    console.log('id', _id)
     Company.findOne({ ownerId: _id, status: 'approved' })
         .then((response) => {
             if (response) {
@@ -72,42 +71,45 @@ router.post('/is-company', (req, res) => {
 })
 
 
-router.post("/checkout", async (req, res) => {  
+router.post("/checkout", async (req, res) => {
     let error;
     let status;
+    const { product, token } = req.body;
     try {
-      const { product, token } = req.body;
-  
-      const customer = await stripe.customers.create({
-        email: token.email,
-        source: token.id
-      });
-      const idempotencyKey = uuid();
-      const charge = await stripe.charges.create(
-        {
-          amount: product.amount,
-          currency: "usd",
-          customer: customer.id,
-          receipt_email: token.email,
-          description: `Purchased the ${product.name}`,
-        },
-        {
-            idempotencyKey
-        }
-      );
-      console.log("Charge:", { charge });
-      status = "success";
+
+        const customer = await stripe.customers.create({
+            email: token.email,
+            source: token.id
+        });
+        const idempotencyKey = uuid();
+        const charge = await stripe.charges.create(
+            {
+                amount: product.amount,
+                currency: "usd",
+                customer: customer.id,
+                receipt_email: token.email,
+                description: `Purchased the ${product.name}`,
+            },
+            {
+                idempotencyKey
+            }
+        );
+        console.log("Charge:", { charge });
+        status = "success";
     } catch (error) {
-      console.error("Error:", error);
-      status = "failure";
+        console.error("Error:", error);
+        status = "failure";
     }
-    if(status == "success"){
-        console.log('status')
+    if (status == "success") {
+        Users.findByIdAndUpdate({ _id: product._id }, { buyPlan: true, plan: product.amount == 2490 ? 'monthly' : 'yearly', subDate: new Date() }, { new: true })
+            .then((response) => {
+                return res.send({ success: true, user: response })
+            })
     }
-  
+
     res.json({ error, status });
-  });
-  
+});
+
 
 
 module.exports = router
