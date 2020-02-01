@@ -23,6 +23,10 @@ const userSchema = new mongoose.Schema({
     },
     plan: {
         type: String,
+    },
+    subDate: {
+        type: Date,
+        required: false
     }
 })
 

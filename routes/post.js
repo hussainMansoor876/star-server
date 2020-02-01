@@ -102,7 +102,7 @@ router.post("/checkout", async (req, res) => {
       status = "failure";
     }
     if(status == "success"){
-        console.log('status', cha)
+        console.log('status')
     }
   
     res.json({ error, status });
