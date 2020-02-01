@@ -101,9 +101,12 @@ router.post("/checkout", async (req, res) => {
         status = "failure";
     }
     if (status == "success") {
-        Users.findByIdAndUpdate({ _id: product._id }, { buyPlan: true, plan: product.amount == 2490 ? 'monthly' : 'yearly', subDate: new Date() }, { new: true })
+        Users.findOneAndUpdate({ _id: product._id }, { buyPlan: true, plan: product.amount == 2490 ? 'monthly' : 'yearly', subDate: new Date() }, { new: true })
             .then((response) => {
-                return res.send({ success: true, user: response })
+                return res.send({ success: true, data: response })
+            })
+            .catch((e) => {
+                res.send({ success: false })
             })
     }
 
