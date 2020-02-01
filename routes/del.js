@@ -10,4 +10,10 @@ router.post('/user', (req, res) => {
     console.log(_id)
 })
 
+router.post('/company', (req, res) => {
+    const { _id } = req.body
+    console.log(_id)
+    return res.send({ success: true })
+})
+
 module.exports = router
