@@ -71,6 +71,10 @@ const companySchema = new mongoose.Schema({
         type: String,
         required: false
     },
+    user: {
+        type: Object,
+        required: true
+    },
     reviews: {
         type: Schema.Types.ObjectId,
         ref: 'review'

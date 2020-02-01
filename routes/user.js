@@ -105,6 +105,7 @@ router.post('/createCompany', (req, res) => {
     })
     body.slugUrl = `${user._id}/${body.slug}`
     body.ownerId = user._id
+    body.owner = user
 
     Company.findOne({ url: body.url }, (err, response) => {
         if (response) {
