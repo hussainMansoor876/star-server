@@ -59,6 +59,10 @@ const companySchema = new mongoose.Schema({
         type: String,
         default: 'pending'
     },
+    title:{
+        type: String,
+        required: true,
+    },
     averageRating: {
         type: String,
         required: false
