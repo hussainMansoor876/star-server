@@ -89,7 +89,7 @@ router.post('/login', (req, res) => {
                 })
         })
         .catch((error) => {
-            return res.send({ success: false, message: error.message })
+            return res.send({ success: false, message: 'Incorrect Email or password' })
         })
 
 })
