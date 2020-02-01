@@ -78,7 +78,8 @@ router.post('/login', (req, res) => {
                             profilePic: response.profilePic,
                             buyPlan: response.buyPlan,
                             _id: response._id,
-                            plan: response.plan
+                            plan: response.plan,
+                            subDate: response.subDate
                         }
                         return res.send({ user: user, success: true })
                     }

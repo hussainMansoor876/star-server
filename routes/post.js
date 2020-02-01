@@ -103,14 +103,22 @@ router.post("/checkout", async (req, res) => {
     if (status == "success") {
         Users.findOneAndUpdate({ _id: product._id }, { buyPlan: true, plan: product.amount == 2490 ? 'monthly' : 'yearly', subDate: new Date() }, { new: true })
             .then((response) => {
-                return res.send({ success: true, data: response })
+                var user = {
+                    name: response.name,
+                    email: response.email,
+                    profilePic: response.profilePic,
+                    buyPlan: response.buyPlan,
+                    _id: response._id,
+                    plan: response.plan,
+                    subDate: response.subDate
+                }
+                return res.send({ success: true, data: user })
             })
             .catch((e) => {
-                res.send({ success: false })
+                return res.send({ success: false })
             })
     }
 
-    res.json({ error, status });
 });
 
 
