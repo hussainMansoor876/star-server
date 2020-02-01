@@ -39,6 +39,10 @@ const companySchema = new mongoose.Schema({
         type: String,
         required: true
     },
+    telnumber:{
+        type: String,
+        required: true
+    },
     contactEmail: {
         type: String,
         required: true
