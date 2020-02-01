@@ -97,7 +97,6 @@ router.post('/login', (req, res) => {
 
 router.post('/createCompany', (req, res) => {
     const { body, files } = req
-    const user = JSON.parse(body.user)
     body.slug = slugify(body.name, {
         replacement: '-',
         remove: null,
@@ -105,7 +104,7 @@ router.post('/createCompany', (req, res) => {
     })
     body.slugUrl = `${user._id}/${body.slug}`
     body.ownerId = user._id
-    body.owner = user
+    body.user = JSON.parse(body.user)
 
     Company.findOne({ url: body.url }, (err, response) => {
         if (response) {
