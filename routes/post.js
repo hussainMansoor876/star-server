@@ -127,15 +127,9 @@ router.post('/add-review', (req, res) => {
     review.save()
     Company.findOneAndUpdate({ _id: body.companyId }, { $push: { reviews: review } })
         .then(() => {
-            Users.findOneAndUpdate({ _id: body.reveiwerId, }, { $push: { reviews: review } })
-                .then(() => {
-                    Company.findOne({ _id: body.companyId }).populate('reviews').exec()
-                        .then((data) => {
-                            return res.send({ success: true, data: data })
-                        })
-                        .catch((e) => {
-                            return res.send({ success: false })
-                        })
+            Users.findOneAndUpdate({ _id: body.reveiwerId, }, { $push: { reviews: review } }, { new: true }).populate('reviews').exec()
+                .then((data) => {
+                    return res.send({ success: true, data: data })
                 })
                 .catch((e) => {
                     return res.send({ success: false })
