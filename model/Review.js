@@ -3,10 +3,6 @@ const mongoose = require('mongoose');
 const SchemaTypes = mongoose.Schema.Types
 
 const reviewSchema = new mongoose.Schema({
-    stars: {
-        type: Number,
-        required: true
-    },
     companyName: {
         type: String,
         required: true
@@ -24,19 +20,24 @@ const reviewSchema = new mongoose.Schema({
         required: true
     },
     feedback: {
-        type: String
+        type: String,
+        required: true
     },
     applicationStars: {
         type: Number,
+        required: true
     },
     featuresStars: {
         type: Number,
+        required: true
     },
     clarityStars: {
         type: Number,
+        required: true
     },
     privacyStars: {
         type: Number,
+        required: true
     },
     video: {
         type: Object,
