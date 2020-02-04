@@ -94,7 +94,6 @@ router.post("/checkout", async (req, res) => {
                 idempotencyKey
             }
         );
-        console.log("Charge:", { charge });
         status = "success";
     } catch (error) {
         console.error("Error:", error);
@@ -120,6 +119,12 @@ router.post("/checkout", async (req, res) => {
     }
 
 });
+
+
+router.post('/add-review', (req, res) => {
+    const { values } = req.body
+    console.log(values)
+})
 
 
 
