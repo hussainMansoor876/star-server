@@ -46,6 +46,10 @@ const reviewSchema = new mongoose.Schema({
     customerService: {
         type: Number,
         required: true
+    },
+    timestamp: {
+        type: Date,
+        default: new Date()
     }
 })
 
