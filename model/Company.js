@@ -75,10 +75,10 @@ const companySchema = new mongoose.Schema({
         type: Object,
         required: true
     },
-    reviews: {
+    reviews: [{
         type: Schema.Types.ObjectId,
         ref: 'review'
-    }
+    }]
 })
 
 const Company = mongoose.model('company', companySchema)

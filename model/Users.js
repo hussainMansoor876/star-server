@@ -29,10 +29,10 @@ const userSchema = new mongoose.Schema({
         type: Date,
         required: false
     },
-    reviews: {
+    reviews: [{
         type: Schema.Types.ObjectId,
         ref: 'review'
-    }
+    }]
 })
 
 const Users = mongoose.model('Users', userSchema)

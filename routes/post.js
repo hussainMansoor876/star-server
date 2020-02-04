@@ -46,7 +46,7 @@ router.post('/search-profile', (req, res) => {
 
 router.post('/search-company', (req, res) => {
     const { _id } = req.body
-    Company.findOne({ _id: _id, status: 'approved' })
+    Company.findOne({ _id: _id, status: 'approved' }).populate('reviews').exec()
         .then((response) => {
             return res.send({ success: true, data: response })
         })
@@ -129,7 +129,13 @@ router.post('/add-review', (req, res) => {
         .then(() => {
             Users.findOneAndUpdate({ _id: body.reveiwerId, }, { $push: { reviews: review } })
                 .then(() => {
-                    return res.send({ success: true })
+                    Company.findOne({ _id: body.companyId }).populate('reviews').exec()
+                        .then((data) => {
+                            return res.send({ success: true, data: data })
+                        })
+                        .catch((e) => {
+                            return res.send({ success: false })
+                        })
                 })
                 .catch((e) => {
                     return res.send({ success: false })
