@@ -122,8 +122,8 @@ router.post("/checkout", async (req, res) => {
 
 
 router.post('/add-review', (req, res) => {
-    const { values } = req.body
-    console.log(values)
+    console.log(req.body)
+    return res.send({ success: true })
 })
 
 
