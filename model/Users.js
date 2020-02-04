@@ -27,6 +27,10 @@ const userSchema = new mongoose.Schema({
     subDate: {
         type: Date,
         required: false
+    },
+    reviews: {
+        type: Schema.Types.ObjectId,
+        ref: 'review'
     }
 })
 
