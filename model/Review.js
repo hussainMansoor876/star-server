@@ -42,12 +42,13 @@ const reviewSchema = new mongoose.Schema({
         type: Number,
         required: true
     },
+    video: {
+        type: Object,
+        required: false
+    }
     customerService: {
         type: Number,
         required: true
-    },
-    benefit: {
-        type: Number,
     }
 })
 
