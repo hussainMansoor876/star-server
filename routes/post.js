@@ -125,12 +125,19 @@ router.post('/add-review', (req, res) => {
     const { body } = req
     const review = new Review(body);
     review.save()
-    Company.findOneAndUpdate({ _id: body.companyId }, { $push: { reviews: review } }, { new: true })
-        .then((response) => {
-            console.log(response)
+    Company.findOneAndUpdate({ _id: body.companyId }, { $push: { reviews: review } })
+        .then(() => {
+            Users.findOneAndUpdate({ _id: reveiwerId, }, { $push: { reviews: review } })
+                .then(() => {
+                    return res.send({ success: true })
+                })
+                .catch(() => {
+                    return res.send({ success: fase })
+                })
         })
-
-    return res.send({ success: true })
+        .catch(() => {
+            return res.send({ success: fase })
+        })
 })
 
 
