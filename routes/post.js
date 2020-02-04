@@ -122,7 +122,14 @@ router.post("/checkout", async (req, res) => {
 
 
 router.post('/add-review', (req, res) => {
-    console.log(req.body)
+    const { body } = req
+    const review = new Review(body);
+    review.save()
+    Company.findOneAndUpdate({ _id: body.companyId }, { $push: { reviews: review } }, { new: true })
+        .then((response) => {
+            console.log(response)
+        })
+
     return res.send({ success: true })
 })
 
