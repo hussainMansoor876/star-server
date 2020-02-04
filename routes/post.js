@@ -46,7 +46,7 @@ router.post('/search-profile', (req, res) => {
 
 router.post('/search-company', (req, res) => {
     const { _id } = req.body
-    Company.findOne({ _id: _id, status: 'approved' }).populate({ path: 'reviews', options: { timestamp: -1 } }).exec()
+    Company.findOne({ _id: _id, status: 'approved' }).populate('reviews').sort({timestamp: -1}).exec()
         .then((response) => {
             return res.send({ success: true, data: response })
         })
