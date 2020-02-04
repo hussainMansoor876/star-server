@@ -38,10 +38,6 @@ const reviewSchema = new mongoose.Schema({
     privacyStars: {
         type: Number,
     },
-    useStars: {
-        type: Number,
-        required: true
-    },
     video: {
         type: Object,
         required: false
