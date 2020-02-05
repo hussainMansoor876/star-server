@@ -48,8 +48,7 @@ const reviewSchema = new mongoose.Schema({
         required: true
     },
     video: {
-        type: Object,
-        required: false
+        type: Object
     },
     customerService: {
         type: Number,

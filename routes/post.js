@@ -5,7 +5,13 @@ const uuid = require("uuid/v4");
 const Users = require('../model/Users')
 const Company = require('../model/Company')
 const Review = require('../model/Review')
-const cloudinary = require('../config/cloudinary')
+var cloudinary = require('cloudinary').v2
+
+cloudinary.config({
+    cloud_name: 'dl39em2mk',
+    api_key: '985614729712982',
+    api_secret: '9dHefP6ub1zvmrlpl4mIU-hthG0'
+});
 
 
 router.post('/approved', (req, res) => {
@@ -124,11 +130,14 @@ router.post("/checkout", async (req, res) => {
 
 router.post('/add-review', (req, res) => {
     const { body, files } = req
+    console.log('files', files)
     if (files.video) {
+        console.log("Hello")
         cloudinary.uploader.upload(files.video.tempFilePath, (err, result) => {
             if (err) {
                 return res.send({ success: false, })
             }
+            console.log('result', result)
             body.video = result
             const review = new Review(body);
             review.save()
@@ -158,31 +167,33 @@ router.post('/add-review', (req, res) => {
         })
     }
 
-    const review = new Review(body);
-    review.save()
-    Company.findOneAndUpdate({ _id: body.companyId }, { $push: { reviews: review } })
-        .then(() => {
-            Users.findOneAndUpdate({ _id: body.reveiwerId, }, { $push: { reviews: review } }, { new: true }).populate('reviews').exec()
-                .then((response) => {
-                    var user = {
-                        name: response.name,
-                        email: response.email,
-                        profilePic: response.profilePic,
-                        buyPlan: response.buyPlan,
-                        _id: response._id,
-                        plan: response.plan,
-                        subDate: response.subDate,
-                        reviews: response.reviews
-                    }
-                    return res.send({ success: true, data: user })
-                })
-                .catch((e) => {
-                    return res.send({ success: false })
-                })
-        })
-        .catch(() => {
-            return res.send({ success: false })
-        })
+    else {
+        const review = new Review(body);
+        review.save()
+        Company.findOneAndUpdate({ _id: body.companyId }, { $push: { reviews: review } })
+            .then(() => {
+                Users.findOneAndUpdate({ _id: body.reveiwerId, }, { $push: { reviews: review } }, { new: true }).populate('reviews').exec()
+                    .then((response) => {
+                        var user = {
+                            name: response.name,
+                            email: response.email,
+                            profilePic: response.profilePic,
+                            buyPlan: response.buyPlan,
+                            _id: response._id,
+                            plan: response.plan,
+                            subDate: response.subDate,
+                            reviews: response.reviews
+                        }
+                        return res.send({ success: true, data: user })
+                    })
+                    .catch((e) => {
+                        return res.send({ success: false })
+                    })
+            })
+            .catch(() => {
+                return res.send({ success: false })
+            })
+    }
 
 })
 
