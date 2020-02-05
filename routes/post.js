@@ -197,5 +197,11 @@ router.post('/add-review', (req, res) => {
 })
 
 
+router.post('/update-review', (req, res) => {
+    const { body } = req
+    console.log(body)
+})
+
+
 
 module.exports = router
