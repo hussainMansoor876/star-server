@@ -130,14 +130,13 @@ router.post("/checkout", async (req, res) => {
 
 router.post('/add-review', (req, res) => {
     const { body, files } = req
-    console.log('files', files)
     if (files.video) {
-        console.log("Hello")
-        cloudinary.uploader.upload(files.video.tempFilePath, (err, result) => {
+        cloudinary.uploader.upload(files.video.tempFilePath, {
+            resource_type: "video"
+        }, (err, result) => {
             if (err) {
                 return res.send({ success: false, })
             }
-            console.log('result', result)
             body.video = result
             const review = new Review(body);
             review.save()
