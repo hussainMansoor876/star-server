@@ -65,7 +65,7 @@ router.post('/search-company', (req, res) => {
 
 router.post('/is-company', (req, res) => {
     const { _id } = req.body
-    Company.findOne({ ownerId: _id })
+    Company.findOne({ ownerId: _id }).populate('reviews').exec()
         .then((response) => {
             if (response) {
                 return res.send({ success: true, data: response })
