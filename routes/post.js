@@ -130,7 +130,7 @@ router.post("/checkout", async (req, res) => {
 
 router.post('/add-review', (req, res) => {
     const { body, files } = req
-    if (files.video) {
+    if (files && files.video) {
         cloudinary.uploader.upload(files.video.tempFilePath, {
             resource_type: "video"
         }, (err, result) => {
