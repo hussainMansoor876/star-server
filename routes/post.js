@@ -199,7 +199,29 @@ router.post('/add-review', (req, res) => {
 
 router.post('/update-review', (req, res) => {
     const { body } = req
-    console.log(body)
+    Review.findOneAndUpdate({ _id: body._id }, { $set: { feedback: body.feedback, applicationStars: body.applicationStars, featuresStars: body.featuresStars, clarityStars: body.clarityStars, privacyStars: body.privacyStars, customerService: body.customerService } })
+        .then(() => {
+            Users.findOne({ _id: body.reveiwerId, }).populate('reviews').exec()
+                .then((response) => {
+                    var user = {
+                        name: response.name,
+                        email: response.email,
+                        profilePic: response.profilePic,
+                        buyPlan: response.buyPlan,
+                        _id: response._id,
+                        plan: response.plan,
+                        subDate: response.subDate,
+                        reviews: response.reviews
+                    }
+                    return res.send({ success: true, data: user })
+                })
+                .catch((e) => {
+                    return res.send({ success: false })
+                })
+        })
+        .catch(() => {
+            return res.send({ success: false })
+        })
 })
 
 
