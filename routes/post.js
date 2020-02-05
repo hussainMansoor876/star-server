@@ -5,6 +5,7 @@ const uuid = require("uuid/v4");
 const Users = require('../model/Users')
 const Company = require('../model/Company')
 const Review = require('../model/Review')
+const cloudinary = require('../config/cloudinary')
 
 
 router.post('/approved', (req, res) => {
@@ -122,32 +123,43 @@ router.post("/checkout", async (req, res) => {
 
 
 router.post('/add-review', (req, res) => {
-    const { body } = req
-    const review = new Review(body);
-    review.save()
-    Company.findOneAndUpdate({ _id: body.companyId }, { $push: { reviews: review } })
-        .then(() => {
-            Users.findOneAndUpdate({ _id: body.reveiwerId, }, { $push: { reviews: review } }, { new: true }).populate('reviews').exec()
-                .then((response) => {
-                    var user = {
-                        name: response.name,
-                        email: response.email,
-                        profilePic: response.profilePic,
-                        buyPlan: response.buyPlan,
-                        _id: response._id,
-                        plan: response.plan,
-                        subDate: response.subDate,
-                        reviews: response.reviews
-                    }
-                    return res.send({ success: true, data: user })
+    const { body, files } = req
+    if (files.video) {
+        cloudinary.uploader.upload(files.video.tempFilePath, (err, result) => {
+            if (err) {
+                return res.send({ success: false, })
+            }
+            body.video = result
+            const review = new Review(body);
+            review.save()
+            Company.findOneAndUpdate({ _id: body.companyId }, { $push: { reviews: review } })
+                .then(() => {
+                    Users.findOneAndUpdate({ _id: body.reveiwerId, }, { $push: { reviews: review } }, { new: true }).populate('reviews').exec()
+                        .then((response) => {
+                            var user = {
+                                name: response.name,
+                                email: response.email,
+                                profilePic: response.profilePic,
+                                buyPlan: response.buyPlan,
+                                _id: response._id,
+                                plan: response.plan,
+                                subDate: response.subDate,
+                                reviews: response.reviews
+                            }
+                            return res.send({ success: true, data: user })
+                        })
+                        .catch((e) => {
+                            return res.send({ success: false })
+                        })
                 })
-                .catch((e) => {
+                .catch(() => {
                     return res.send({ success: false })
                 })
         })
-        .catch(() => {
-            return res.send({ success: false })
-        })
+    }
+
+    
+
 })
 
 
