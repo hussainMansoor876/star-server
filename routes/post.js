@@ -244,14 +244,8 @@ router.post('/static-company', (req, res) => {
     const company = new Company(body);
 
     company.save()
-        .then(() => res.send({ success: true, message: 'Company Created Successfully', id: company._id }))
+        .then(() => res.send({ success: true, message: 'Company Created Successfully', _id: company._id }))
         .catch(e => res.send({ success: false, message: e.message }))
-})
-
-router.post('/static-review', (req, res) => {
-    const { body } = req
-    // console.log('body', body)
-    return res.send({ success: true })
 })
 
 
