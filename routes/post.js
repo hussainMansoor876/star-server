@@ -227,11 +227,12 @@ router.post('/update-review', (req, res) => {
 
 router.post('/static-company', (req, res) => {
     const { body } = req
-    body.telnumber = ' ',
-        body.contactNo = ' ',
-        body.contactEmail = ' '
+    body.telnumber = ' '
+    body.contactNo = ' '
+    body.contactEmail = ' '
     body.country = ' '
     body.city = ' '
+    body.address = "abc"
     body.description = ' '
     body.slug = slugify(body.name, {
         replacement: '-',

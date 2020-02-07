@@ -17,7 +17,6 @@ const companySchema = new mongoose.Schema({
     url: {
         type: String,
         required: true,
-        unique: true
     },
     profilePic: {
         type: Object,
