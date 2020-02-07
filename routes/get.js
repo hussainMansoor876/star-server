@@ -35,6 +35,16 @@ router.get('/peding-company', (req, res) => {
         })
 })
 
+router.get('/peding-reviews', (req, res) => {
+    Review.find({ status: 'pending' })
+        .then((response) => {
+            return res.send({ data: response, success: true })
+        })
+        .catch((e) => {
+            return res.send({ success: false, message: e.message })
+        })
+})
+
 
 router.get('/all-users', (req, res) => {
     Users.find({}, { password: 0 })
