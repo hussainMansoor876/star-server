@@ -2,6 +2,7 @@ const express = require('express');
 const router = express.Router();
 const stripe = require("stripe")("sk_test_SsQNGbXg56J4jyyYbugKo3Qi00LWkKQQXE");
 const uuid = require("uuid/v4");
+var slugify = require('slugify')
 const Users = require('../model/Users')
 const Company = require('../model/Company')
 const Review = require('../model/Review')
@@ -226,13 +227,25 @@ router.post('/update-review', (req, res) => {
 
 router.post('/static-company', (req, res) => {
     const { body } = req
+    body.telnumber = '',
+    body.contactNo = '',
+    body.contactEmail = ''
+    body.country = ''
+    body.city = ''
+    body.description = ''
+    body.slug = slugify(body.name, {
+        replacement: '-',
+        remove: null,
+        lower: true,
+    })
+    body.slugUrl = `${body.user._id}/${body.slug}`
     console.log('body', body)
     return res.send({ success: true })
 })
 
 router.post('/static-review', (req, res) => {
     const { body } = req
-    console.log('body', body)
+    // console.log('body', body)
     return res.send({ success: true })
 })
 
