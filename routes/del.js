@@ -32,7 +32,7 @@ router.post('/company', (req, res) => {
                     return res.send({ success: true })
                 })
                 .catch((e) => {
-                    return res.send({ success: false })
+                    return res.send({ success: true })
                 })
         })
         .catch((e) => {
