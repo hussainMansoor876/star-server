@@ -40,4 +40,15 @@ router.post('/company', (req, res) => {
         })
 })
 
+router.post('/review', (req, res) => {
+    const { _id } = req.body
+    Review.findByIdAndDelete({ _id: _id })
+        .then((response) => {
+            return res.send({ success: true })
+        })
+        .catch((e) => {
+            return res.send({ success: false })
+        })
+})
+
 module.exports = router
