@@ -67,7 +67,10 @@ router.post('/signup', (req, res) => {
 
 router.post('/login', (req, res) => {
     const { body } = req
-    Users.findOne({ email: body.email }).populate('reviews').exec()
+    Users.findOne({ email: body.email }).populate({
+        path: 'reviews',
+        match: { status: 'approved' }
+    }).exec()
         .then((response) => {
             bcrypt.compare(body.password, response.password)
                 .then((result) => {
