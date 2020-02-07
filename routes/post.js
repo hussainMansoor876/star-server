@@ -25,6 +25,16 @@ router.post('/approved', (req, res) => {
         })
 })
 
+router.post('/review-approved', (req, res) => {
+    Review.findByIdAndUpdate(req.body.id, { status: 'approved' })
+        .then((response) => {
+            return res.send({ success: true })
+        })
+        .catch((e) => {
+            return res.send({ success: false, message: e.message })
+        })
+})
+
 router.post('/search', (req, res) => {
     const { searchType, searchInput } = req.body
     if (searchType === 'company') {
