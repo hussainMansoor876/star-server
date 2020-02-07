@@ -224,6 +224,17 @@ router.post('/update-review', (req, res) => {
         })
 })
 
+router.post('/static-company', (req, res) => {
+    const { body } = req
+    console.log('body', body)
+    return res.send({ success: true })
+})
+
+router.post('/static-review', (req, res) => {
+    const { body } = req
+    console.log('body', body)
+    return res.send({ success: true })
+})
 
 
 module.exports = router
