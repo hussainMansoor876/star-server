@@ -100,7 +100,7 @@ router.post('/login', (req, res) => {
 
 })
 
-router.post('/update-data', (req, res) => {
+router.post('/update-user', (req, res) => {
     const { body } = req
     Users.findById({ _id: body._id }).populate({
         path: 'reviews',
@@ -120,6 +120,21 @@ router.post('/update-data', (req, res) => {
                 user.reviews = response.reviews
             }
             return res.send({ user: user, success: true })
+        })
+        .catch((error) => {
+            return res.send({ success: false, message: 'Incorrect Email or password' })
+        })
+
+})
+
+router.post('/update-company', (req, res) => {
+    const { body } = req
+    Company.findById({ _id: body._id }).populate({
+        path: 'reviews',
+        match: { status: 'approved' }
+    }).exec()
+        .then((response) => {
+            return res.send({ data: data, success: true })
         })
         .catch((error) => {
             return res.send({ success: false, message: 'Incorrect Email or password' })
