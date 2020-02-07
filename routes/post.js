@@ -163,43 +163,43 @@ router.post('/add-review', (req, res) => {
                         .catch((e) => {
                             return res.send({ success: false })
                         })
-                })
-                .catch(() => {
-                    return res.send({ success: false })
+                    )
                 })
         })
-    }
-
-    else {
-        const review = new Review(body);
-        review.save()
-        Company.findOneAndUpdate({ _id: body.companyId }, { $push: { reviews: review } })
-            .then(() => {
-                Users.findOneAndUpdate({ _id: body.reveiwerId, }, { $push: { reviews: review } }, { new: true }).populate({
-                    path: 'reviews',
-                    match: { status: 'approved' }
-                }).exec()
-                    .then((response) => {
-                        var user = {
-                            name: response.name,
-                            email: response.email,
-                            profilePic: response.profilePic,
-                            buyPlan: response.buyPlan,
-                            _id: response._id,
-                            plan: response.plan,
-                            subDate: response.subDate,
-                            reviews: response.reviews
-                        }
-                        return res.send({ success: true, data: user })
-                    })
-                    .catch((e) => {
-                        return res.send({ success: false })
-                    })
-            })
             .catch(() => {
                 return res.send({ success: false })
             })
     }
+    else {
+    const review = new Review(body);
+    review.save()
+    Company.findOneAndUpdate({ _id: body.companyId }, { $push: { reviews: review } })
+        .then(() => {
+            Users.findOneAndUpdate({ _id: body.reveiwerId, }, { $push: { reviews: review } }, { new: true }).populate({
+                path: 'reviews',
+                match: { status: 'approved' }
+            }).exec()
+                .then((response) => {
+                    var user = {
+                        name: response.name,
+                        email: response.email,
+                        profilePic: response.profilePic,
+                        buyPlan: response.buyPlan,
+                        _id: response._id,
+                        plan: response.plan,
+                        subDate: response.subDate,
+                        reviews: response.reviews
+                    }
+                    return res.send({ success: true, data: user })
+                })
+                .catch((e) => {
+                    return res.send({ success: false })
+                })
+        })
+        .catch(() => {
+            return res.send({ success: false })
+        })
+}
 
 })
 
