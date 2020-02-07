@@ -233,6 +233,7 @@ router.post('/static-company', (req, res) => {
     body.country = ' '
     body.city = ' '
     body.address = "abc"
+    body.title = ' '
     body.description = ' '
     body.slug = slugify(body.name, {
         replacement: '-',
@@ -243,7 +244,7 @@ router.post('/static-company', (req, res) => {
     const company = new Company(body);
 
     company.save()
-        .then(() => res.send({ success: true, message: 'Company Created Successfully', id: company }))
+        .then(() => res.send({ success: true, message: 'Company Created Successfully', id: company._id }))
         .catch(e => res.send({ success: false, message: e.message }))
 })
 

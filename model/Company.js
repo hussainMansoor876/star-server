@@ -12,7 +12,7 @@ const companySchema = new mongoose.Schema({
     ownerId: {
         type: String,
         required: true,
-        unique: true,
+        unique: true
     },
     url: {
         type: String,
@@ -24,21 +24,27 @@ const companySchema = new mongoose.Schema({
     },
     description: {
         type: String,
+        required: true
     },
     country: {
         type: String,
+        required: true
     },
     city: {
         type: String,
+        required: true
     },
     contactNo: {
         type: String,
+        required: true
     },
     telnumber:{
         type: String,
+        required: true
     },
     contactEmail: {
         type: String,
+        required: true
     },
     address: {
         type: String,
@@ -58,6 +64,7 @@ const companySchema = new mongoose.Schema({
     },
     title:{
         type: String,
+        required: true,
     },
     averageRating: {
         type: String,
