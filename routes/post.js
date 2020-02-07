@@ -172,7 +172,7 @@ router.post('/add-review', (req, res) => {
         review.save()
         Company.findOneAndUpdate({ _id: body.companyId }, { $push: { reviews: review } })
             .then(() => {
-                Users.findOneAndUpdate({ _id: body.reveiwerId, }, { $push: { reviews: review } }, { new: true }).populate('reviews').exec()
+                Users.findOneAndUpdate({ _id: body.reveiwerId, }, { $push: { reviews: review } }, { new: true }).populate({ path: 'reviews', status: 'approved' }).exec()
                     .then((response) => {
                         var user = {
                             name: response.name,
@@ -202,7 +202,7 @@ router.post('/update-review', (req, res) => {
     const { body } = req
     Review.findOneAndUpdate({ _id: body._id }, { $set: { feedback: body.feedback, applicationStars: body.applicationStars, featuresStars: body.featuresStars, clarityStars: body.clarityStars, privacyStars: body.privacyStars, customerService: body.customerService } })
         .then(() => {
-            Users.findOne({ _id: body.reveiwerId, }).populate('reviews').exec()
+            Users.findOne({ _id: body.reveiwerId, }).populate({ path: 'reviews', status: 'approved' }).exec()
                 .then((response) => {
                     var user = {
                         name: response.name,
