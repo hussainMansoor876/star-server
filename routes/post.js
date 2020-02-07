@@ -227,12 +227,12 @@ router.post('/update-review', (req, res) => {
 
 router.post('/static-company', (req, res) => {
     const { body } = req
-    body.telnumber = '',
-        body.contactNo = '',
-        body.contactEmail = ''
-    body.country = ''
-    body.city = ''
-    body.description = ''
+    body.telnumber = ' ',
+        body.contactNo = ' ',
+        body.contactEmail = ' '
+    body.country = ' '
+    body.city = ' '
+    body.description = ' '
     body.slug = slugify(body.name, {
         replacement: '-',
         remove: null,
@@ -242,9 +242,8 @@ router.post('/static-company', (req, res) => {
     const company = new Company(body);
 
     company.save()
-        .then(() => res.send({ success: true, message: 'Company Created Successfully' }))
+        .then(() => res.send({ success: true, message: 'Company Created Successfully', id: company }))
         .catch(e => res.send({ success: false, message: e.message }))
-    return res.send({ success: true })
 })
 
 router.post('/static-review', (req, res) => {
