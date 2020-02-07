@@ -171,35 +171,35 @@ router.post('/add-review', (req, res) => {
             })
     }
     else {
-    const review = new Review(body);
-    review.save()
-    Company.findOneAndUpdate({ _id: body.companyId }, { $push: { reviews: review } })
-        .then(() => {
-            Users.findOneAndUpdate({ _id: body.reveiwerId, }, { $push: { reviews: review } }, { new: true }).populate({
-                path: 'reviews',
-                match: { status: 'approved' }
-            }).exec()
-                .then((response) => {
-                    var user = {
-                        name: response.name,
-                        email: response.email,
-                        profilePic: response.profilePic,
-                        buyPlan: response.buyPlan,
-                        _id: response._id,
-                        plan: response.plan,
-                        subDate: response.subDate,
-                        reviews: response.reviews
-                    }
-                    return res.send({ success: true, data: user })
-                })
-                .catch((e) => {
-                    return res.send({ success: false })
-                })
-        })
-        .catch(() => {
-            return res.send({ success: false })
-        })
-}
+        const review = new Review(body);
+        review.save()
+        Company.findOneAndUpdate({ _id: body.companyId }, { $push: { reviews: review } })
+            .then(() => {
+                Users.findOneAndUpdate({ _id: body.reveiwerId, }, { $push: { reviews: review } }, { new: true }).populate({
+                    path: 'reviews',
+                    match: { status: 'approved' }
+                }).exec()
+                    .then((response) => {
+                        var user = {
+                            name: response.name,
+                            email: response.email,
+                            profilePic: response.profilePic,
+                            buyPlan: response.buyPlan,
+                            _id: response._id,
+                            plan: response.plan,
+                            subDate: response.subDate,
+                            reviews: response.reviews
+                        }
+                        return res.send({ success: true, data: user })
+                    })
+                    .catch((e) => {
+                        return res.send({ success: false })
+                    })
+            })
+            .catch(() => {
+                return res.send({ success: false })
+            })
+    }
 
 })
 
@@ -208,7 +208,10 @@ router.post('/update-review', (req, res) => {
     const { body } = req
     Review.findOneAndUpdate({ _id: body._id }, { $set: { feedback: body.feedback, applicationStars: body.applicationStars, featuresStars: body.featuresStars, clarityStars: body.clarityStars, privacyStars: body.privacyStars, customerService: body.customerService } })
         .then(() => {
-            Users.findOne({ _id: body.reveiwerId, }).populate({ path: 'reviews', status: 'approved' }).exec()
+            Users.findOne({ _id: body.reveiwerId, }).populate({
+                path: 'reviews',
+                match: { status: 'approved' }
+            }).exec()
                 .then((response) => {
                     var user = {
                         name: response.name,
