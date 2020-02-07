@@ -239,7 +239,7 @@ router.post('/static-company', (req, res) => {
         lower: true,
     })
     body.slugUrl = `${body.user._id}/${body.slug}`
-    console.log('body', body)
+    
     return res.send({ success: true })
 })
 

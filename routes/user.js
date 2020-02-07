@@ -81,7 +81,7 @@ router.post('/login', (req, res) => {
                             plan: response.plan,
                             subDate: response.subDate
                         }
-                        if(response.reviews){
+                        if (response.reviews) {
                             user.reviews = response.reviews
                         }
                         return res.send({ user: user, success: true })
@@ -110,23 +110,17 @@ router.post('/createCompany', (req, res) => {
     body.ownerId = user._id
     body.user = user
 
-    Company.findOne({ url: body.url }, (err, response) => {
-        if (response) {
-            return res.send({ success: false, message: 'Url Already Exist!!!' })
+    cloudinary.uploader.upload(files.profilePic.tempFilePath, (err, result) => {
+        if (err) {
+            return res.send({ success: false, })
         }
+        body.profilePic = result
 
-        cloudinary.uploader.upload(files.profilePic.tempFilePath, (err, result) => {
-            if (err) {
-                return res.send({ success: false, })
-            }
-            body.profilePic = result
+        const company = new Company(body);
 
-            const company = new Company(body);
-
-            company.save()
-                .then(() => res.send({ success: true, message: 'Company Created Successfully' }))
-                .catch(e => res.send({ success: false, message: e.message }))
-        })
+        company.save()
+            .then(() => res.send({ success: true, message: 'Company Created Successfully' }))
+            .catch(e => res.send({ success: false, message: e.message }))
     })
 })
 
