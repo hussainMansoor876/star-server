@@ -228,8 +228,8 @@ router.post('/update-review', (req, res) => {
 router.post('/static-company', (req, res) => {
     const { body } = req
     body.telnumber = '',
-    body.contactNo = '',
-    body.contactEmail = ''
+        body.contactNo = '',
+        body.contactEmail = ''
     body.country = ''
     body.city = ''
     body.description = ''
@@ -239,7 +239,11 @@ router.post('/static-company', (req, res) => {
         lower: true,
     })
     body.slugUrl = `${body.user._id}/${body.slug}`
-    
+    const company = new Company(body);
+
+    company.save()
+        .then(() => res.send({ success: true, message: 'Company Created Successfully' }))
+        .catch(e => res.send({ success: false, message: e.message }))
     return res.send({ success: true })
 })
 
