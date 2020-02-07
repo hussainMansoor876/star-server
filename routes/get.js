@@ -36,6 +36,7 @@ router.get('/peding-company', (req, res) => {
 })
 
 router.get('/peding-reviews', (req, res) => {
+    console.log('hello')
     Review.find({ status: 'pending' })
         .then((response) => {
             return res.send({ data: response, success: true })
