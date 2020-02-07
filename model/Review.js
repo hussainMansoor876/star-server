@@ -13,11 +13,13 @@ const reviewSchema = new mongoose.Schema({
     },
     ownerName: {
         type: String,
-        required: true
+        required: true,
+        default: ''
     },
     ownerId: {
         type: String,
-        required: true
+        required: true,
+        default: null
     },
     reveiwerName: {
         type: String,

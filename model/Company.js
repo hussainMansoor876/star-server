@@ -12,7 +12,7 @@ const companySchema = new mongoose.Schema({
     ownerId: {
         type: String,
         required: true,
-        unique: true
+        unique: true,
     },
     url: {
         type: String,
