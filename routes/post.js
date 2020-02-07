@@ -43,7 +43,10 @@ router.post('/search', (req, res) => {
 
 router.post('/search-profile', (req, res) => {
     const { _id } = req.body
-    Users.findById({ _id: _id }, { password: 0 }).populate('reviews').exec()
+    Users.findById({ _id: _id }, { password: 0 }).populate({
+        path: 'reviews',
+        match: { status: 'approved' }
+    }).exec()
         .then((response) => {
             return res.send({ success: true, data: response })
         })
@@ -54,7 +57,10 @@ router.post('/search-profile', (req, res) => {
 
 router.post('/search-company', (req, res) => {
     const { _id } = req.body
-    Company.findOne({ _id: _id, status: 'approved' }).populate('reviews').exec()
+    Company.findOne({ _id: _id, status: 'approved' }).populate({
+        path: 'reviews',
+        match: { status: 'approved' }
+    }).exec()
         .then((response) => {
             return res.send({ success: true, data: response })
         })
@@ -66,7 +72,10 @@ router.post('/search-company', (req, res) => {
 
 router.post('/is-company', (req, res) => {
     const { _id } = req.body
-    Company.findOne({ ownerId: _id }).populate('reviews').exec()
+    Company.findOne({ ownerId: _id }).populate({
+        path: 'reviews',
+        match: { status: 'approved' }
+    }).exec()
         .then((response) => {
             if (response) {
                 return res.send({ success: true, data: response })
