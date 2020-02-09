@@ -79,6 +79,17 @@ router.post('/search-company', (req, res) => {
         })
 })
 
+router.post('/search-review', (req, res) => {
+    const { _id } = req.body
+    Review.findOne({ _id: _id, status: 'approved' })
+        .then((response) => {
+            return res.send({ success: true, data: response })
+        })
+        .catch((e) => {
+            return res.send({ success: false, data: '' })
+        })
+})
+
 
 router.post('/is-company', (req, res) => {
     const { _id } = req.body
