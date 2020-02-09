@@ -47,18 +47,16 @@ router.get('/peding-reviews', (req, res) => {
 })
 
 router.get('/get-company', (req, res) => {
-    var companyArr = []
     Review.find({ status: 'approved' }).sort({ timestamp: -1 })
         .then((response) => {
             var id = response.map(v => v.companyId)
             var unique = id.filter((v, i, a) => a.indexOf(v) === i)
-            for (var i of unique) {
-                Company.findById({ _id: i })
-                    .then((result) => {
-                        companyArr.push(result)
-                    })
-            }
-            return res.send({ data: companyArr, success: true })
+            console.log(unique)
+            Company.find({ $or: [{ _id: unique }] })
+                .then((result) => {
+                    console.log(result)
+                    return res.send({ data: result, success: true })
+                })
         })
         .catch((e) => {
             return res.send({ success: false, message: e.message })
