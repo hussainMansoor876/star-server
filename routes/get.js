@@ -47,9 +47,16 @@ router.get('/peding-reviews', (req, res) => {
 })
 
 router.get('/get-company', (req, res) => {
-    Review.find({ status: 'pending' }).sort({ timestamp: -1 })
+    var companyArr = []
+    Review.find({ status: 'approved' }).sort({ timestamp: -1 })
         .then((response) => {
-            return res.send({ data: response, success: true })
+            var id = response.map(v => v.companyId)
+            var unique = id.filter((v, i, a) => a.indexOf(v) === i)
+            companyArr = unique.map((v) => {
+                return Company.findById({ _id: v })
+                    .then((result) => result)
+            })
+            return res.send({ data: companyArr, success: true })
         })
         .catch((e) => {
             return res.send({ success: false, message: e.message })
