@@ -3,6 +3,7 @@ const router = express.Router();
 const Users = require('../model/Users')
 const Company = require('../model/Company')
 const Review = require('../model/Review')
+// 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
 
 router.get('/all-company', (req, res) => {
     Company.find({})
@@ -36,6 +37,16 @@ router.get('/peding-company', (req, res) => {
 })
 
 router.get('/peding-reviews', (req, res) => {
+    Review.find({ status: 'pending' }).sort({ timestamp: -1 })
+        .then((response) => {
+            return res.send({ data: response, success: true })
+        })
+        .catch((e) => {
+            return res.send({ success: false, message: e.message })
+        })
+})
+
+router.get('/get-company', (req, res) => {
     Review.find({ status: 'pending' }).sort({ timestamp: -1 })
         .then((response) => {
             return res.send({ data: response, success: true })
