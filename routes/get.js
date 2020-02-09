@@ -52,10 +52,9 @@ router.get('/get-company', (req, res) => {
         .then((response) => {
             var id = response.map(v => v.companyId)
             var unique = id.filter((v, i, a) => a.indexOf(v) === i)
-            companyArr = unique.map((v) => {
-                return Company.findById({ _id: v })
-                    .then((result) => result)
-            })
+            for(var i of unique){
+                console.log(i)
+            }
             return res.send({ data: companyArr, success: true })
         })
         .catch((e) => {
