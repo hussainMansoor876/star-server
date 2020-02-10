@@ -7,6 +7,11 @@ const Users = require('../model/Users')
 const Company = require('../model/Company')
 const Review = require('../model/Review')
 var cloudinary = require('cloudinary').v2
+var sgMail = require('@sendgrid/mail');
+const sendgridApi = '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'
+
+sgMail.setApiKey(sendgridApi)
+
 
 cloudinary.config({
     cloud_name: 'dl39em2mk',
