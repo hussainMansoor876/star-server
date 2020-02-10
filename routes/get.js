@@ -53,9 +53,12 @@ router.get('/get-company', (req, res) => {
             var id = response.map(v => v.companyId)
             var unique = id.filter((v, i, a) => a.indexOf(v) === i)
             console.log(unique)
-            Company.find({ _id: unique })
+            Company.find({ _id: unique }).populate({
+                path: 'reviews',
+                match: { status: 'approved' }
+            }).exec()
                 .then((result) => {
-                    return res.send({ data: result, success: true, unique })
+                    return res.send({ data: result, success: true })
                 })
         })
         .catch((e) => {
