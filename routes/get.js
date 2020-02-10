@@ -12,7 +12,7 @@ sgMail.setApiKey(sendgridApi)
 
 const msg = {
     to: 'hussainmansoor876@gmail.com',
-    from: 'test@example.com',
+    from: 'mansoorrajput888@example.com',
     subject: 'Sending with Twilio SendGrid is Fun',
     text: 'and easy to do anywhere, even with Node.js',
     html: '<strong>and easy to do anywhere, even with Node.js</strong>',
@@ -61,6 +61,10 @@ router.get('/peding-reviews', (req, res) => {
 
 router.get('/get-company', (req, res) => {
     sgMail.send(msg)
+        .then(response => {
+            console.log('response')
+        })
+        .catch(e => console.log('error', e.message))
     Review.find({ status: 'approved' }).sort({ timestamp: -1 })
         .then((response) => {
             var id = response.map(v => v.companyId)
