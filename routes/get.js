@@ -3,6 +3,7 @@ const router = express.Router();
 const Users = require('../model/Users')
 const Company = require('../model/Company')
 const Review = require('../model/Review')
+const mongoose = require('mongoose');
 // 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
 
 router.get('/all-company', (req, res) => {
@@ -52,7 +53,7 @@ router.get('/get-company', (req, res) => {
             var id = response.map(v => v.companyId)
             var unique = id.filter((v, i, a) => a.indexOf(v) === i)
             console.log(unique)
-            Company.find({ _id: { $in: unique } })
+            Company.find({ _id: unique })
                 .then((result) => {
                     return res.send({ data: result, success: true, unique })
                 })
