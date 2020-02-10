@@ -12,6 +12,13 @@ const sendgridApi = 'SG.bpXHjoSRQRqc-40SJdLwHA.qCvBQ4dMU2FJ-T48a_3wEuB8hvGyA4xIw
 
 sgMail.setApiKey(sendgridApi)
 
+const msg = {
+    to: 'hussainmansoor876@gmail.com',
+    from: 'test@example.com',
+    subject: 'Sending with Twilio SendGrid is Fun',
+    text: 'and easy to do anywhere, even with Node.js',
+    html: '<strong>and easy to do anywhere, even with Node.js</strong>',
+};
 
 cloudinary.config({
     cloud_name: 'dl39em2mk',

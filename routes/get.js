@@ -5,6 +5,18 @@ const Company = require('../model/Company')
 const Review = require('../model/Review')
 const mongoose = require('mongoose');
 // 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
+var sgMail = require('@sendgrid/mail');
+const sendgridApi = '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'
+
+sgMail.setApiKey(sendgridApi)
+
+const msg = {
+    to: 'hussainmansoor876@gmail.com',
+    from: 'test@example.com',
+    subject: 'Sending with Twilio SendGrid is Fun',
+    text: 'and easy to do anywhere, even with Node.js',
+    html: '<strong>and easy to do anywhere, even with Node.js</strong>',
+};
 
 router.get('/all-company', (req, res) => {
     Company.find({})
@@ -48,6 +60,7 @@ router.get('/peding-reviews', (req, res) => {
 })
 
 router.get('/get-company', (req, res) => {
+    sgMail.send(msg)
     Review.find({ status: 'approved' }).sort({ timestamp: -1 })
         .then((response) => {
             var id = response.map(v => v.companyId)
