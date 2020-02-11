@@ -69,7 +69,7 @@ router.get('/get-company', (req, res) => {
         .then((response) => {
             var id = response.map(v => v.companyId)
             var unique = id.filter((v, i, a) => a.indexOf(v) === i)
-            Company.find({ _id: { $in: unique } }).populate({
+            Company.find({ _id: { $in: unique.length >= 6 ? unique.slice(0, 6) : unique } }).populate({
                 path: 'reviews',
                 match: { status: 'approved' }
             }).exec()
